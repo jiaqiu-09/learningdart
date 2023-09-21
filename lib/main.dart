@@ -20,27 +20,26 @@ class RandomWords extends StatefulWidget {
 }
 
 class RandomWordsState extends State<RandomWords> {
+  final entries = <WordPair>[];
+
   Widget _buildList() {
-    return ListView(
-      padding: const EdgeInsets.all(8),
-      children: <Widget>[
-        Container(
-          height: 50,
-          color: Colors.amber[600],
-          child: const Center(child: Text('Entry A')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[500],
-          child: const Center(child: Text('Entry B')),
-        ),
-        Container(
-          height: 50,
-          color: Colors.amber[100],
-          child: const Center(child: Text('Entry C')),
-        ),
-      ],
-    );
+    return ListView.builder(
+        padding: const EdgeInsets.all(8),
+        itemBuilder: (BuildContext context, int index) {
+          if (index.isOdd) {
+            return Divider();
+          }
+          final _idx = index ~/ 2;
+          if (_idx >= entries.length) {
+            entries.addAll(generateWordPairs().take(10));
+          }
+          return ListTile(
+            title: Text(
+              entries[_idx].asPascalCase,
+              style: TextStyle(fontSize: 18.0),
+            ),
+          );
+        });
   }
 
   @override
