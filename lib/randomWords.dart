@@ -21,16 +21,26 @@ class RandomWordsState extends State<RandomWords> {
           if (idx >= entries.length) {
             entries.addAll(generateWordPairs().take(10));
           }
-          final alreadySaved = savedSet.contains(entries[idx]);
+          final pair = entries[idx];
+          final alreadySaved = savedSet.contains(pair);
           return ListTile(
             title: Text(
-              entries[idx].asPascalCase,
-              style: TextStyle(fontSize: 18.0),
+              pair.asPascalCase,
+              style: const TextStyle(fontSize: 18.0),
             ),
             trailing: Icon(
               alreadySaved ? Icons.favorite : Icons.favorite_border,
               color: alreadySaved ? Colors.red : null,
             ),
+            onTap: () {
+              setState(() {
+                if (alreadySaved) {
+                  savedSet.remove(pair);
+                } else {
+                  savedSet.add(pair);
+                }
+              });
+            },
           );
         });
   }
