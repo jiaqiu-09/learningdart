@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import './favorites.dart';
 
 class RandomWords extends StatefulWidget {
   @override
@@ -45,9 +46,22 @@ class RandomWordsState extends State<RandomWords> {
         });
   }
 
+  void _pushNext() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Favorite(data: savedSet.toList());
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('English Words')), body: _buildList());
+        appBar: AppBar(title: Text('English Words'), actions: [
+          IconButton(
+              onPressed: () {
+                _pushNext();
+              },
+              icon: const Icon(Icons.list))
+        ]),
+        body: _buildList());
   }
 }
